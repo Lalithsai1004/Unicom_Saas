@@ -16,7 +16,7 @@ const options = {
     colors: LOGS_COLORS,
 };
 module.exports = class Logs {
-    constructor(appName = 'miroTalkP2P') {
+    constructor(appName = 'unicomP2P') {
         this.appName = appName;
         this.debugOn = LOGS_DEBUG;
         this.timeStart = Date.now();

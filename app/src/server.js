@@ -1,53 +1,5 @@
-/*
-http://patorjk.com/software/taag/#p=display&f=ANSI%20Regular&t=Server
 
-███████ ███████ ██████  ██    ██ ███████ ██████  
-██      ██      ██   ██ ██    ██ ██      ██   ██ 
-███████ █████   ██████  ██    ██ █████   ██████  
-     ██ ██      ██   ██  ██  ██  ██      ██   ██ 
-███████ ███████ ██   ██   ████   ███████ ██   ██                                           
 
-dependencies: {
-    @mattermost/client      : https://www.npmjs.com/package/@mattermost/client
-    @ngrok/ngrok            : https://www.npmjs.com/package/@ngrok/ngrok
-    @sentry/node            : https://www.npmjs.com/package/@sentry/node
-    axios                   : https://www.npmjs.com/package/axios
-    chokidar                : https://www.npmjs.com/package/chokidar
-    colors                  : https://www.npmjs.com/package/colors
-    compression             : https://www.npmjs.com/package/compression
-    cors                    : https://www.npmjs.com/package/cors
-    crypto-js               : https://www.npmjs.com/package/crypto-js
-    dompurify               : https://www.npmjs.com/package/dompurify
-    dotenv                  : https://www.npmjs.com/package/dotenv
-    express                 : https://www.npmjs.com/package/express
-    express-openid-connect  : https://www.npmjs.com/package/express-openid-connect
-    he                      : https://www.npmjs.com/package/he
-    helmet                  : https://www.npmjs.com/package/helmet
-    httpolyglot             : https://www.npmjs.com/package/httpolyglot
-    jsdom                   : https://www.npmjs.com/package/jsdom
-    jsonwebtoken            : https://www.npmjs.com/package/jsonwebtoken
-    js-yaml                 : https://www.npmjs.com/package/js-yaml
-    nodemailer              : https://www.npmjs.com/package/nodemailer
-    openai                  : https://www.npmjs.com/package/openai
-    qs                      : https://www.npmjs.com/package/qs
-    socket.io               : https://www.npmjs.com/package/socket.io
-    swagger-ui-express      : https://www.npmjs.com/package/swagger-ui-express
-    uuid                    : https://www.npmjs.com/package/uuid
-}
-*/
-
-/**
- * MiroTalk P2P - Server component
- *
- * @link    GitHub: https://github.com/miroslavpejic85/mirotalk
- * @link    Official Live demo: https://p2p.mirotalk.com
- * @license For open source use: AGPLv3
- * @license For commercial use or closed source, contact us at license.mirotalk@gmail.com or purchase directly from CodeCanyon
- * @license CodeCanyon: https://codecanyon.net/item/mirotalk-p2p-webrtc-realtime-video-conferences/38376661
- * @author  Miroslav Pejic - miroslav.pejic.85@gmail.com
- * @version 1.5.49
- *
- */
 
 'use strict'; // https://www.w3schools.com/js/js_strict.asp
 
@@ -145,7 +97,7 @@ const io = new Server({
 // Host protection (disabled by default)
 const hostProtected = getEnvBoolean(process.env.HOST_PROTECTED);
 const userAuth = getEnvBoolean(process.env.HOST_USER_AUTH);
-const hostUsersString = process.env.HOST_USERS || '[{"username": "MiroTalk", "password": "P2P"}]';
+const hostUsersString = process.env.HOST_USERS || '[{"username": "Unicom", "password": "P2P"}]';
 const hostUsers = JSON.parse(hostUsersString);
 const hostCfg = {
     protected: hostProtected,
@@ -157,12 +109,12 @@ const hostCfg = {
 
 // JWT config
 const jwtCfg = {
-    JWT_KEY: process.env.JWT_KEY || 'mirotalk_jwt_secret',
+    JWT_KEY: process.env.JWT_KEY || 'unicom_jwt_secret',
     JWT_EXP: process.env.JWT_EXP || '1h',
 };
 
 // Room presenters
-const roomPresentersString = process.env.PRESENTERS || '["MiroTalk P2P"]';
+const roomPresentersString = process.env.PRESENTERS || '["Unicom P2P"]';
 const roomPresenters = JSON.parse(roomPresentersString);
 
 // Swagger config
@@ -174,7 +126,7 @@ const swaggerDocument = yaml.load(fs.readFileSync(path.join(__dirname, '/../api/
 const { v4: uuidV4 } = require('uuid');
 const apiBasePath = '/api/v1'; // api endpoint path
 const api_docs = host + apiBasePath + '/docs'; // api docs
-const api_key_secret = process.env.API_KEY_SECRET || 'mirotalkp2p_default_secret';
+const api_key_secret = process.env.API_KEY_SECRET || 'unicom_peer_to_peer_SECRET_KEY';
 const apiDisabledString = process.env.API_DISABLED || '["token", "meetings"]';
 const api_disabled = JSON.parse(apiDisabledString);
 
@@ -183,8 +135,6 @@ const ngrok = require('@ngrok/ngrok');
 const ngrokEnabled = getEnvBoolean(process.env.NGROK_ENABLED);
 const ngrokAuthToken = process.env.NGROK_AUTH_TOKEN;
 
-// Stun (https://bloggeek.me/webrtcglossary/stun/)
-// Turn (https://bloggeek.me/webrtcglossary/turn/)
 const iceServers = [];
 const stunServerUrl = process.env.STUN_SERVER_URL;
 const turnServerUrl = process.env.TURN_SERVER_URL;
@@ -192,7 +142,7 @@ const turnServerUsername = process.env.TURN_SERVER_USERNAME;
 const turnServerCredential = process.env.TURN_SERVER_CREDENTIAL;
 const stunServerEnabled = getEnvBoolean(process.env.STUN_SERVER_ENABLED);
 const turnServerEnabled = getEnvBoolean(process.env.TURN_SERVER_ENABLED);
-// Stun is mandatory for not internal network
+
 if (stunServerEnabled && stunServerUrl) iceServers.push({ urls: stunServerUrl });
 // Turn is recommended if direct peer to peer connection is not possible
 if (turnServerEnabled && turnServerUrl && turnServerUsername && turnServerCredential) {
@@ -208,11 +158,11 @@ const IPLookupEnabled = getEnvBoolean(process.env.IP_LOOKUP_ENABLED);
 
 // Survey URL
 const surveyEnabled = getEnvBoolean(process.env.SURVEY_ENABLED);
-const surveyURL = process.env.SURVEY_URL || 'https://www.questionpro.com/t/AUs7VZq00L';
+const surveyURL = process.env.SURVEY_URL || '__';
 
 // Redirect URL
 const redirectEnabled = getEnvBoolean(process.env.REDIRECT_ENABLED);
-const redirectURL = process.env.REDIRECT_URL || '/newcall';
+const redirectURL = process.env.REDIRECT_URL || '__';
 
 // Sentry config
 const Sentry = require('@sentry/node');
@@ -576,7 +526,6 @@ app.get('/stats', (req, res) => {
     res.send(statsData);
 });
 
-// mirotalk about
 app.get(['/about'], (req, res) => {
     res.sendFile(views.about);
 });
@@ -611,11 +560,7 @@ app.post('/isRoomActive', (req, res) => {
 app.get('/join/', async (req, res) => {
     if (Object.keys(req.query).length > 0) {
         log.debug('Request Query', req.query);
-        /* 
-            http://localhost:3000/join?room=test&name=mirotalk&audio=1&video=1&screen=0&notify=0&hide=0
-            https://p2p.mirotalk.com/join?room=test&name=mirotalk&audio=1&video=1&screen=0&notify=0&hide=0
-            https://mirotalk.up.railway.app/join?room=test&name=mirotalk&audio=1&video=1&screen=0&notify=0&hide=0
-        */
+        
         const { room, name, audio, video, screen, notify, hide, token } = checkXSS(req.query);
 
         if (!room) {
@@ -802,10 +747,7 @@ app.get('/:roomId', (req, res) => {
     res.redirect(`/join/${roomId}`);
 });
 
-/**
-    MiroTalk API v1
-    For api docs we use: https://swagger.io/
-*/
+
 
 // request stats list
 app.get(`${apiBasePath}/stats`, (req, res) => {
@@ -819,7 +761,7 @@ app.get(`${apiBasePath}/stats`, (req, res) => {
     const { host, authorization } = req.headers;
     const api = new ServerApi(host, authorization, api_key_secret);
     if (!api.isAuthorized()) {
-        log.debug('MiroTalk get stats - Unauthorized', {
+        log.debug('get stats - Unauthorized', {
             header: req.headers,
             body: req.body,
         });
@@ -834,7 +776,7 @@ app.get(`${apiBasePath}/stats`, (req, res) => {
         totalPeers,
     });
     // log.debug the output if all done
-    log.debug('MiroTalk get stats - Authorized', {
+    log.debug('get stats - Authorized', {
         header: req.headers,
         body: req.body,
         timestamp,
@@ -855,7 +797,7 @@ app.post(`${apiBasePath}/token`, (req, res) => {
     const { host, authorization } = req.headers;
     const api = new ServerApi(host, authorization, api_key_secret);
     if (!api.isAuthorized()) {
-        log.debug('MiroTalk get token - Unauthorized', {
+        log.debug('get token - Unauthorized', {
             header: req.headers,
             body: req.body,
         });
@@ -865,7 +807,7 @@ app.post(`${apiBasePath}/token`, (req, res) => {
     const token = api.getToken(req.body);
     res.json({ token: token });
     // log.debug the output if all done
-    log.debug('MiroTalk get token - Authorized', {
+    log.debug('get token - Authorized', {
         header: req.headers,
         body: req.body,
         token: token,
@@ -884,7 +826,7 @@ app.get(`${apiBasePath}/meetings`, (req, res) => {
     const { host, authorization } = req.headers;
     const api = new ServerApi(host, authorization, api_key_secret);
     if (!api.isAuthorized()) {
-        log.debug('MiroTalk get meetings - Unauthorized', {
+        log.debug('get meetings - Unauthorized', {
             header: req.headers,
             body: req.body,
         });
@@ -894,7 +836,7 @@ app.get(`${apiBasePath}/meetings`, (req, res) => {
     const meetings = api.getMeetings(peers);
     res.json({ meetings: meetings });
     // log.debug the output if all done
-    log.debug('MiroTalk get meetings - Authorized', {
+    log.debug('get meetings - Authorized', {
         header: req.headers,
         body: req.body,
         meetings: meetings,
@@ -912,7 +854,7 @@ app.post(`${apiBasePath}/meeting`, (req, res) => {
     const { host, authorization } = req.headers;
     const api = new ServerApi(host, authorization, api_key_secret);
     if (!api.isAuthorized()) {
-        log.debug('MiroTalk get meeting - Unauthorized', {
+        log.debug('get meeting - Unauthorized', {
             header: req.headers,
             body: req.body,
         });
@@ -920,7 +862,7 @@ app.post(`${apiBasePath}/meeting`, (req, res) => {
     }
     const meetingURL = api.getMeetingURL();
     res.json({ meeting: meetingURL });
-    log.debug('MiroTalk get meeting - Authorized', {
+    log.debug('get meeting - Authorized', {
         header: req.headers,
         body: req.body,
         meeting: meetingURL,
@@ -938,7 +880,7 @@ app.post(`${apiBasePath}/join`, (req, res) => {
     const { host, authorization } = req.headers;
     const api = new ServerApi(host, authorization, api_key_secret);
     if (!api.isAuthorized()) {
-        log.debug('MiroTalk get join - Unauthorized', {
+        log.debug('get join - Unauthorized', {
             header: req.headers,
             body: req.body,
         });
@@ -946,17 +888,14 @@ app.post(`${apiBasePath}/join`, (req, res) => {
     }
     const joinURL = api.getJoinURL(req.body);
     res.json({ join: joinURL });
-    log.debug('MiroTalk get join - Authorized', {
+    log.debug('get join - Authorized', {
         header: req.headers,
         body: req.body,
         join: joinURL,
     });
 });
 
-/*
-    MiroTalk Slack app v1
-    https://api.slack.com/authentication/verifying-requests-from-slack
-*/
+
 
 // Slack request meeting room endpoint
 app.post('/slack', (req, res) => {
@@ -1002,7 +941,7 @@ function getMeetingURL(host) {
     return 'http' + (host.includes('localhost') ? '' : 's') + '://' + host + '/join/' + uuidV4();
 }
 
-// end of MiroTalk API v1
+
 
 // not match any of page before, so 404 not found
 app.use((req, res) => {

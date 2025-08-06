@@ -5,11 +5,11 @@ async function getStats() {
         // Use dynamic import with await
         const { default: fetch } = await import('node-fetch');
 
-        const API_KEY_SECRET = 'mirotalkp2p_default_secret';
-        const MIROTALK_URL = 'https://p2p.mirotalk.com/api/v1/stats';
-        //const MIROTALK_URL = 'http://localhost:3000/api/v1/stats';
+        const API_KEY_SECRET = 'unicom_peer_to_peer_SECRET_KEY';
+        const Unicom_URL = 'https://p2p.mirotalk.com/api/v1/stats';
+        
 
-        const response = await fetch(MIROTALK_URL, {
+        const response = await fetch(Unicom_URL, {
             method: 'GET',
             headers: {
                 authorization: API_KEY_SECRET,

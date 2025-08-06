@@ -27,12 +27,11 @@ function login() {
     const username = filterXSS(document.getElementById('username').value);
     const password = filterXSS(document.getElementById('password').value);
 
-    // http://localhost:3000/join/?room=test
-    // http://localhost:3000/join/?room=test&name=mirotalk&audio=0&video=0&screen=0&notify=0
+
     const qs = new URLSearchParams(window.location.search);
     const room = filterXSS(qs.get('room'));
 
-    // http://localhost:3000/join/test
+    
     const pathParts = window.location.pathname.split('/');
     const roomPath = pathParts[pathParts.length - 1];
 

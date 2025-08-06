@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>MiroTalk - Support Widget</title>
+        <title>Unicom - Support Widget</title>
         <style>
             .widget-container {
                 font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -534,7 +534,7 @@
 
             <!-- Subheading -->
             <p class="subheading">
-                Hop on a <span style="font-weight: bold">Free 1:1 or Group Consultation</span> with a MiroTalk Expert
+                Hop on a <span style="font-weight: bold">Free 1:1 or Group Consultation</span> with a Unicom Expert
                 right now!
             </p>
 
@@ -594,7 +594,7 @@
             </button>
 
             <div class="footer-text">
-                Powered by <a href="#" class="footer-link" onclick="openMiroTalk()">MiroTalk</a>
+                Powered by <a href="#" class="footer-link" onclick="openUniTalk()">Unicom</a>
             </div>
         </div>
 
@@ -604,7 +604,7 @@
             const onlineText = document.querySelector('.online-text');
             const offlineText = document.querySelector('.offline-text');
 
-            const domain = 'p2p.mirotalk.com'; // Replace with your MiroTalk server domain
+            const domain = '/'; 
 
             const roomId = 'test'; // Replace with desired room ID
 
@@ -636,7 +636,7 @@
                 return updateStatusUI(isOnline); // For testing, assume always online comment this line to enable real status check
 
                 try {
-                    // Enable HOST_PROTECTED mode or OIDC mode on the MiroTalk server otherwise this will return always Unauthorized
+                    
                     const response = await fetch(`https://${domain}/isRoomActive`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
@@ -713,7 +713,7 @@
                 }
             }
 
-            function openMiroTalk() {
+            function openUniTalk() {
                 window.open(`https://${domain}`, '_blank');
             }
 

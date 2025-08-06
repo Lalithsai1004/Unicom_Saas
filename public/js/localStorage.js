@@ -57,9 +57,7 @@ class LocalStorage {
         };
     }
 
-    // ####################################################
-    // SET LOCAL STORAGE
-    // ####################################################
+   
 
     setItemLocalStorage(key, value) {
         localStorage.setItem(key, value);
@@ -111,9 +109,7 @@ class LocalStorage {
         this.setObjectLocalStorage('LOCAL_STORAGE_DEVICES', this.LOCAL_STORAGE_DEVICES);
     }
 
-    // ####################################################
-    // GET LOCAL STORAGE
-    // ####################################################
+
 
     getInitConfig() {
         return this.getObjectLocalStorage('P2P_INIT_CONFIG');

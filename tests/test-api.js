@@ -182,12 +182,12 @@ describe('test-api', () => {
             result.should.equal('jwtToken');
 
             signStub
-                .calledWith({ data: 'encryptedPayload' }, 'mirotalk_jwt_secret', { expiresIn: '1h' })
+                .calledWith({ data: 'encryptedPayload' }, 'unicom_jwt_secret', { expiresIn: '1h' })
                 .should.be.true();
             encryptStub
                 .calledWith(
                     JSON.stringify({ username: 'user', password: 'pass', presenter: 'true' }),
-                    'mirotalk_jwt_secret'
+                    'unicom_jwt_secret'
                 )
                 .should.be.true();
 

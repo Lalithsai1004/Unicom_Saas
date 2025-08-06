@@ -1,27 +1,11 @@
 /*
- ██████ ██      ██ ███████ ███    ██ ████████ 
-██      ██      ██ ██      ████   ██    ██    
-██      ██      ██ █████   ██ ██  ██    ██    
-██      ██      ██ ██      ██  ██ ██    ██    
- ██████ ███████ ██ ███████ ██   ████    ██   
+ * @version 1.5.49
 */
 
-/**
- * MiroTalk P2P - Client component
- *
- * @link    GitHub: https://github.com/miroslavpejic85/mirotalk
- * @link    Official Live demo: https://p2p.mirotalk.com
- * @license For open source use: AGPLv3
- * @license For commercial use or closed source, contact us at license.mirotalk@gmail.com or purchase directly from CodeCanyon
- * @license CodeCanyon: https://codecanyon.net/item/mirotalk-p2p-webrtc-realtime-video-conferences/38376661
- * @author  Miroslav Pejic - miroslav.pejic.85@gmail.com
- * @version 1.5.49
- *
- */
 
 'use strict';
 
-// https://www.w3schools.com/js/js_strict.asp
+
 
 // Signaling server URL
 const signalingServer = getSignalingServer();
@@ -52,7 +36,7 @@ const images = {
     recording: '../images/recording.png',
     poster: '../images/loader.gif',
     geoLocation: '../images/geolocation.png',
-}; // nice free icon: https://www.iconfinder.com
+}; 
 
 const className = {
     user: 'fas fa-user',
@@ -94,7 +78,7 @@ const className = {
     up: 'fas fa-chevron-up',
     down: 'fas fa-chevron-down',
 };
-// https://fontawesome.com/search?o=r&m=free
+
 
 const icons = {
     lock: '<i class="fas fa-lock"></i>',
@@ -109,15 +93,14 @@ const icons = {
     theme: '<i class="fas fa-fill-drip"></i>',
 };
 
-// Whiteboard and fileSharing
-const fileSharingInput = '*'; // allow all file extensions
+const fileSharingInput = '*'; 
 const Base64Prefix = 'data:application/pdf;base64,';
 const wbPdfInput = 'application/pdf';
 const wbImageInput = 'image/*';
 const wbWidth = 1280;
 const wbHeight = 768;
 
-// Peer infos
+
 const extraInfo = getId('extraInfo');
 const isWebRTCSupported = checkWebRTCSupported();
 const userAgent = navigator.userAgent;
@@ -136,16 +119,16 @@ const isFirefox = browserName.toLowerCase().includes('firefox');
 const peerInfo = getPeerInfo();
 const thisInfo = getInfo();
 
-// Local Storage class
+
 const lS = new LocalStorage();
 const localStorageSettings = lS.getObjectLocalStorage('P2P_SETTINGS');
 const lsSettings = localStorageSettings ? localStorageSettings : lS.P2P_SETTINGS;
 console.log('LOCAL_STORAGE_SETTINGS', lsSettings);
 
-// Check if embedded inside an iFrame
+
 const isEmbedded = window.self !== window.top;
 
-// Check if PIP is supported by this browser
+
 const showVideoPipBtn = document.pictureInPictureEnabled;
 
 // Check if Document PIP is supported by this browser
@@ -1406,7 +1389,7 @@ function handleButtonsRule() {
     elemDisplay(fileShareBtn, buttons.main.showFileShareBtn);
     elemDisplay(documentPiPBtn, showDocumentPipBtn && buttons.main.showDocumentPipBtn);
     elemDisplay(mySettingsBtn, buttons.main.showMySettingsBtn);
-    elemDisplay(aboutBtn, buttons.main.showAboutBtn);
+    
     // chat
     elemDisplay(msgerTogglePin, !isMobileDevice && buttons.chat.showTogglePinBtn);
     elemDisplay(msgerMaxBtn, !isMobileDevice && buttons.chat.showMaxBtn);
@@ -1553,7 +1536,7 @@ async function whoAreYou() {
         allowOutsideClick: false,
         allowEscapeKey: false,
         background: swBg,
-        title: brand.app?.name || 'MiroTalk P2P',
+        title: brand.app?.name || 'Unicom',
         position: 'center',
         input: 'text',
         inputPlaceholder: 'Enter your email or name',
@@ -2331,7 +2314,7 @@ async function handleRTCDataChannels(peer_id) {
                                 break;
                         }
                     } catch (err) {
-                        console.error('mirotalk_chat_channel', err);
+                        console.error( err);
                     }
                     break;
                 case 'mirotalk_file_sharing_channel':
@@ -2347,12 +2330,12 @@ async function handleRTCDataChannels(peer_id) {
                                         handleDataChannelFileSharing(arrayBuffer);
                                     })
                                     .catch((error) => {
-                                        console.error('mirotalk_file_sharing_channel', error);
+                                        console.error( error);
                                     });
                             }
                         }
                     } catch (err) {
-                        console.error('mirotalk_file_sharing_channel', err);
+                        console.error( err);
                     }
                     break;
                 default:
@@ -2389,15 +2372,15 @@ function blobToArrayBuffer(blob) {
  * @param {string} peer_id socket.id
  */
 async function handleRtcOffer(peer_id) {
-    // https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/onnegotiationneeded
+   
     peerConnections[peer_id].onnegotiationneeded = () => {
         console.log('Creating RTC offer to ' + allPeers[peer_id]['peer_name']);
-        // https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/createOffer
+        
         peerConnections[peer_id]
             .createOffer()
             .then((local_description) => {
                 console.log('Local offer description is', local_description);
-                // https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/setLocalDescription
+                
                 peerConnections[peer_id]
                     .setLocalDescription(local_description)
                     .then(() => {
@@ -2427,22 +2410,22 @@ function handleSessionDescription(config) {
     console.log('Remote Session Description', config);
     const { peer_id, session_description } = config;
 
-    // https://developer.mozilla.org/en-US/docs/Web/API/RTCSessionDescription
+    
     const remote_description = new RTCSessionDescription(session_description);
 
-    // https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/setRemoteDescription
+    
     peerConnections[peer_id]
         .setRemoteDescription(remote_description)
         .then(() => {
             console.log('setRemoteDescription done!');
             if (session_description.type == 'offer') {
                 console.log('Creating answer');
-                // https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/createAnswer
+                
                 peerConnections[peer_id]
                     .createAnswer()
                     .then((local_description) => {
                         console.log('Answer description is: ', local_description);
-                        // https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/setLocalDescription
+                       
                         peerConnections[peer_id]
                             .setLocalDescription(local_description)
                             .then(() => {
@@ -2452,7 +2435,6 @@ function handleSessionDescription(config) {
                                 });
                                 console.log('Answer setLocalDescription done!');
 
-                                // https://github.com/miroslavpejic85/mirotalk/issues/110
                                 if (needToCreateOffer) {
                                     needToCreateOffer = false;
                                     handleRtcOffer(peer_id);
@@ -2483,7 +2465,7 @@ function handleSessionDescription(config) {
  */
 function handleIceCandidate(config) {
     const { peer_id, ice_candidate } = config;
-    // https://developer.mozilla.org/en-US/docs/Web/API/RTCIceCandidate
+  
     peerConnections[peer_id].addIceCandidate(new RTCIceCandidate(ice_candidate)).catch((err) => {
         console.error('[Error] addIceCandidate', err);
     });
@@ -2801,7 +2783,7 @@ function setTheme() {
             console.log('No theme found');
             break;
     }
-    //setButtonsBarPosition(mainButtonsBarPosition);
+   
 }
 
 /**
@@ -5599,11 +5581,7 @@ function setMySettingsBtn() {
 /**
  * About button click event
  */
-function setAboutBtn() {
-    aboutBtn.addEventListener('click', (e) => {
-        showAbout();
-    });
-}
+
 
 /**
  * Leave room button click event
@@ -6467,7 +6445,7 @@ function shareRoomByEmail() {
             const selectedDateTime = document.getElementById('datetimePicker').value;
             const roomPassword = isRoomLocked && thisRoomPassword ? 'Password: ' + thisRoomPassword + newLine : '';
             const email = '';
-            const emailSubject = `Please join our MiroTalk P2P Video Chat Meeting`;
+            const emailSubject = `Please join our Unicom P2P Video Chat Meeting`;
             const emailBody = `The meeting is scheduled at: ${newLine} DateTime: ${selectedDateTime} ${newLine}${roomPassword}Click to join: ${roomURL} ${newLine}`;
             document.location = 'mailto:' + email + '?subject=' + emailSubject + '&body=' + emailBody;
         },
@@ -10637,7 +10615,7 @@ function selectFileToShare(peer_id, broadcast = false) {
     Swal.fire({
         allowOutsideClick: false,
         background: swBg,
-        imageAlt: 'mirotalk-file-sharing',
+       
         imageUrl: images.share,
         position: 'center',
         title: 'Share file',
@@ -10844,7 +10822,7 @@ function endDownload() {
                 title: 'Received file',
                 text: incomingFileInfo.file.fileName + ' size ' + bytesToSize(incomingFileInfo.file.fileSize),
                 imageUrl: e.target.result,
-                imageAlt: 'mirotalk-file-img-download',
+                
                 showDenyButton: true,
                 confirmButtonText: `Save`,
                 denyButtonText: `Cancel`,
@@ -10854,14 +10832,14 @@ function endDownload() {
                 if (result.isConfirmed) saveBlobToFile(blob, file);
             });
         };
-        // blob where is stored downloaded file
+    
         reader.readAsDataURL(blob);
     } else {
         // not img file
         Swal.fire({
             allowOutsideClick: false,
             background: swBg,
-            imageAlt: 'mirotalk-file-download',
+           
             imageUrl: images.share,
             position: 'center',
             title: 'Received file',
@@ -11233,60 +11211,8 @@ function handleKickedOut(config) {
     });
 }
 
-/**
- * MiroTalk about info
- */
-function showAbout() {
-    playSound('newMessage');
 
-    Swal.fire({
-        background: swBg,
-        position: 'center',
-        title: brand.about?.title && brand.about.title.trim() !== '' ? brand.about.title : 'WebRTC P2P v1.5.49',
-        imageUrl: brand.about?.imageUrl && brand.about.imageUrl.trim() !== '' ? brand.about.imageUrl : images.about,
-        customClass: { image: 'img-about' },
-        html: `
-            <br/>
-            <div id="about">
-                ${
-                    brand.about?.html && brand.about.html.trim() !== ''
-                        ? brand.about.html
-                        : `
-                        <button 
-                            id="support-button" 
-                            data-umami-event="Support button" 
-                            onclick="window.open('https://codecanyon.net/user/miroslavpejic85', '_blank')">
-                            <i class="${className.heart}"></i>&nbsp;Support
-                        </button>
-                        <br /><br /><br />
-                        Author: 
-                        <a 
-                            id="linkedin-button" 
-                            data-umami-event="Linkedin button" 
-                            href="https://www.linkedin.com/in/miroslav-pejic-976a07101/" 
-                            target="_blank"> 
-                            Miroslav Pejic
-                        </a>
-                        <br /><br />
-                        Email: 
-                        <a 
-                            id="email-button" 
-                            data-umami-event="Email button" 
-                            href="mailto:miroslav.pejic.85@gmail.com?subject=MiroTalk P2P info"> 
-                            miroslav.pejic.85@gmail.com
-                        </a>
-                        <br /><br />
-                        <hr />
-                        <span>&copy; 2025 MiroTalk P2P, all rights reserved</span>
-                        <hr />
-                        `
-                }
-            </div>
-        `,
-        showClass: { popup: 'animate__animated animate__fadeInDown' },
-        hideClass: { popup: 'animate__animated animate__fadeOutUp' },
-    });
-}
+
 
 /**
  * Leave the Room and create a new one
@@ -11312,7 +11238,7 @@ function leaveFeedback() {
         imageUrl: images.feedback,
         position: 'top',
         title: 'Leave a feedback',
-        text: 'Do you want to rate your MiroTalk experience?',
+        text: 'experience?',
         confirmButtonText: `Yes`,
         denyButtonText: `No`,
         cancelButtonText: `Cancel`,

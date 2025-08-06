@@ -1,6 +1,6 @@
 'use strict';
 
-// Umami analytics: https://github.com/mikecao/umami
+
 
 console.log('STATS', window.location);
 
